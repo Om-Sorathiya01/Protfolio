@@ -8,35 +8,53 @@ import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 
+const tiltOptions = {
+  max: 18,
+  scale: 1.03,
+  speed: 350,
+};
+
 const ProjectCard = ({
   index,
   name,
   description,
   tags,
   image,
+  images,
   source_code_link,
 }) => {
+  const displayImages = images && images.length > 0 ? images : [image];
+  
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
       <Tilt
-        options={{
-          max: 45,
-          scale: 1,
-          speed: 450,
-        }}
+        options={tiltOptions}
         className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full'
       >
-        <div className='relative w-full h-[230px]'>
-          <img
-            src={image}
-            alt='project_image'
-            className='w-full h-full object-cover rounded-2xl'
-          />
+        <div className='relative w-full h-[230px] overflow-hidden rounded-2xl'>
+          {displayImages.length === 1 ? (
+            <img
+              src={displayImages[0]}
+              alt='project_image'
+              className='w-full h-full object-cover rounded-2xl transition-transform duration-700 ease-out hover:scale-110'
+            />
+          ) : (
+            <div className='flex gap-2 w-full h-full'>
+              {displayImages.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`project_image_${idx + 1}`}
+                  className='flex-1 h-full object-cover rounded-2xl transition-transform duration-700 ease-out hover:scale-105'
+                />
+              ))}
+            </div>
+          )}
 
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
+          <div className='absolute inset-0 flex justify-end m-3 card-img_hover transition-opacity duration-300 ease-out'>
             <div
               onClick={() => window.open(source_code_link, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
+              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer transition-transform duration-300 ease-out hover:scale-110'
             >
               <img
                 src={github}
@@ -47,7 +65,7 @@ const ProjectCard = ({
           </div>
         </div>
 
-        <div className='mt-5'>
+        <div className='mt-5 space-y-2 transition-colors duration-300 ease-out'>
           <h3 className='text-white font-bold text-[24px]'>{name}</h3>
           <p className='mt-2 text-secondary text-[14px]'>{description}</p>
         </div>
