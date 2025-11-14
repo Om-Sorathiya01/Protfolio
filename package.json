@@ -1,7 +1,9 @@
 {
-  "name": "3dfolio",
+  "name": "om-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Om Sorathiya's 3D Developer Portfolio",
+  "author": "Om Sorathiya",
   "type": "module",
   "scripts": {
     "dev": "vite",
